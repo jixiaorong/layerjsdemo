@@ -1,0 +1,134 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" type="text/css" href="./css/style.css"/>
+<script type="text/javascript" src="./lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/bases.js"></script>
+<script type="text/javascript" src="js/swfobject.js"></script>
+</head>
+<body>
+<div class="login">
+<div class="login_box">
+<h2>恭喜您将成为我们的<b>VIP</b>会员</h2>
+<h3>立即填表 <b>马上体验</b></h3>
+<input name="userid" id="userid" type="hidden">
+
+<p class="nameBox"><input class="name" id="rname" type="text" placeholder="姓名"/></p>
+<p class="mobilBox"><input class="mobil" id="phone" type="text" placeholder="手机号"/></p>
+<p class="shortBox"><input class="shortInput pass" id="password" type="text" placeholder="验证码"/>
+<input class="clickWord shortInput" type="button" value="点击获取验证码"/>
+
+</p>
+<p>
+<input type="submit" class="startBtn  tijiao_input" value="马上体验"></p>
+</div>
+</div>
+
+</body>
+</html>
+<script src="js/layer.js"></script>
+<script src="js/layout.js"></script>
+<script>
+$('.clickWord').click(function(){
+var phone=$("#phone").val();
+if (!$(this).parent().siblings().find(".mobil").val().match(/^(1(([35][0-9])|(47)|[8][01236789]))\d{8}$/)) {
+alert("手机号码格式不正确！请重新输入！");
+return false; 
+};
+
+
+var data = {
+"phone":phone,
+};
+
+
+$.ajax({
+url: '/index.php/Books/check.html',
+type: 'POST',
+dataType: "json",
+data:data,
+success:function (data) {
+if       (data.error==0){
+layer.msg('信息已发送到您手机上，请注意查收…',{icon:1});
+setTimeout(function(){
+parent.layer.close(); 
+},1000);
+}else if (data.error==1){
+layer.msg(data.msg,{icon:2});
+}
+}
+});
+
+});
+
+$('.tijiao_input').click(function(){
+var userid=$("#userid").val();
+var rname=$("#rname").val();
+var phone=$("#phone").val();
+var password=$("#password").val();
+if($(this).parent().siblings().find(".name").val()==""){ 
+alert("姓名不能为空！");
+return false; 
+};
+if($(this).parent().siblings().find(".mobil").val()==""){ 
+alert("手机号码不能为空！");
+return false; 
+};
+if (!$(this).parent().siblings().find(".mobil").val().match(/^(1(([35][0-9])|(47)|[8][01236789]))\d{8}$/)) {
+alert("手机号码格式不正确！请重新输入！");
+return false; 
+};
+if($(this).parent().siblings().find(".pass").val()==""){ 
+alert("验证码不能为空！");
+return false; 
+}; 
+
+
+var data = {
+"phone":phone,
+"rname":rname,
+"password":password,
+"id":'0',
+};
+
+
+$.ajax({
+url: '/index.php/Books.html',
+type: 'POST',
+dataType: "json",
+data:data,
+success:function (data) {
+if       (data.error==0){
+layer.msg('提交成功，等待下载…',{icon:1});
+setTimeout(function(){
+window.location.href=data.msg; 
+},1000);
+}else if (data.error==1){
+layer.msg(data.msg,{icon:2});
+}
+}
+});
+
+});
+
+
+</script>
+<!--<div style="text-align:center;"> <div style="display:none">
+交易软件,炒股软件,大智慧,通达信,解套,股票自动交易软件,股票自动交易程序,股票自动交易系统
+</div>
+Keywords:
+<a href="http://www.jz5158.com/sitemap.html" title="交易软件" target="_blank"><strong>交易软件</strong></a> 
+
+<a href="http://www.jz5158.com/sitemap.xml" title="炒股软件" target="_blank"><strong>炒股软件</strong></a> 
+
+<a href="http://www.jz5158.com/sitemap.html" title="大智慧" target="_blank"><strong>大智慧</strong></a> 
+
+<a href="http://www.jz5158.com/sitemap.xml" title="通达信" target="_blank"><strong>通达信</strong></a> 
+
+<a href="http://www.jz5158.com/sitemap.html" title="解套" target="_blank"><strong>解套</strong></a> 
+
+</div>-->
